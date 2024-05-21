@@ -36,7 +36,7 @@
                             {% endif %}
                             {% for num in range(1, total_pages + 1) %}
                                 <li class="page-item {% if num == page %}active{% endif %}">
-                                    <a class="page-link" href="{{ url_for('search', page=num) }}{% if request.query_string %}?{{ request.query_string.decode('utf-8') }}{% endif %}">{{ num }}</a>
+                                    <a class="page-link" href="{{ url_for('search_computers', page=num) }}{% if request.query_string %}?{{ request.query_string.decode('utf-8') }}{% endif %}">{{ num }}</a>
                                 </li>
                             {% endfor %}
                             {% if has_next %}
