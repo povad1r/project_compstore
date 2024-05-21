@@ -12,9 +12,6 @@ def get_computers():
     computers = cursor.fetchall()
     conn.close()
     return computers
-#
-# openai.api_key = 'sk-proj-K8yLk03bIWuVDufvAOBsT3BlbkFJEeRoP62w1Hzvt80vnYvP'
-
 
 @app.route('/')
 def home():
