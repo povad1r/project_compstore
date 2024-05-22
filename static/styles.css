@@ -15,11 +15,11 @@ footer{
 }
 
 .user-profile {
-    margin-right: auto; /* Разместить слева */
+    margin-right: auto;
 }
 
 .cart {
-    margin-left: auto; /* Разместить справа */
+    margin-left: auto;
 }
 
 .container, .container-lg, .container-md, .container-sm, .container-xl{

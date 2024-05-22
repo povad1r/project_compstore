@@ -2,7 +2,7 @@ import sqlite3
 
 connect = sqlite3.connect('database.db')
 
-# connect.execute('''DROP TABLE computers''')
+connect.execute('''DROP TABLE accessories''')
 
 # connect.execute('''CREATE TABLE IF NOT EXISTS computers (
 #                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -95,23 +95,21 @@ cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc,
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
                ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'mouse', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 5000, 'Logitech'))
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'headphones', 'Миша Razer DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 11334, 'Razer'))
+               ('static/headphones.png', 'headphones', 'Миша Razer DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 11334, 'Razer'))
 
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'headphones', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 1453, 'Logitech'))
+               ('static/headphones.png', 'headphones', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 1453, 'Logitech'))
 
 
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'headphones', 'Миша HyperX DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 4633, 'Hyperx'))
+               ('static/headphones.png', 'headphones', 'Миша HyperX DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 4633, 'Hyperx'))
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'headphones', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 6768, 'Logitech'))
+               ('static/headphones.png', 'headphones', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 6768, 'Logitech'))
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
                ('https://content1.rozetka.com.ua/goods/images/big/276987417.png', 'keyboard', 'Миша Razer DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 8797, 'Razer'))
 
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
                ('https://content1.rozetka.com.ua/goods/images/big/276987417.png', 'keyboard', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 2357, 'Logitech'))
-
-
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
                ('https://content1.rozetka.com.ua/goods/images/big/276987417.png', 'keyboard', 'Миша HyperX DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 8643, 'Hyperx'))
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
