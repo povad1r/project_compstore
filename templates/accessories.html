@@ -64,8 +64,8 @@
             {% for accessory in accessories %}
                 <div class="col-md-4 mb-3">
                     <div class="card">
-                        <div class="card-img-container">
-                            <img src="{{ accessory[1] }}" height="400px" class="card-img-top" alt="{{ accessory[3] }}">
+                        <div class="card-img-container" style="height: 300px; overflow: hidden;">
+                                    <img src="{{ accessory[1] }}" class="card-img-top" alt="{{ accessory[3] }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ accessory[3] }}</h5>
