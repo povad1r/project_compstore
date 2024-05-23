@@ -23,7 +23,7 @@ cursor = connect.cursor()
 #
 #
 # cursor.execute("INSERT INTO computers (image, computer_name, computer_desc, GPU, CPU, RAM, price) VALUES (?, ?, ?, ?, ?, ?, ?)",
-#                ('Gaming X66v22.jpg', 'Gaming X66v22', 'Gaming X66v22 побудований на платформі материнської плати ASUS PRIME B450M-A з роз\'ємом AM4 та підтримкою процесорів AMD всіх поколінь Ryzen', 'GeForce RTX 3060 Ti', 'AMD Ryzen 5600X', 16, 42000))
+#                ('Gaming X66v22.jpg', 'Gaming X66v22', 'Gaming X66v22 побудований на платформі материнської плати ASUS PRIME B450M-A з роз\'ємом AM4 та підтримкою процесорів AMD всіх поколінь', 'GeForce RTX 3060 Ti', 'AMD Ryzen 5600X', 16, 42000))
 #
 #
 # cursor.execute("INSERT INTO computers (image, computer_name, computer_desc, GPU, CPU, RAM, price) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -84,38 +84,36 @@ connect.execute('''CREATE TABLE IF NOT EXISTS accessories (
 
 
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-                ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'mouse', 'Миша Razer DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 1200, 'Razer'))
+                ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'Мишка', 'Миша Razer DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 1200, 'Razer'))
 
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-            ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'mouse', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 2500, 'Logitech'))
-
-
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'mouse', 'Миша HyperX DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 1500, 'Hyperx'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'mouse', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 5000, 'Logitech'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('static/headphones.png', 'headphones', 'Миша Razer DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 11334, 'Razer'))
-
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('static/headphones.png', 'headphones', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 1453, 'Logitech'))
+            ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'Мишка', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 2500, 'Logitech'))
 
 
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('static/headphones.png', 'headphones', 'Миша HyperX DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 4633, 'Hyperx'))
+               ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'Мишка', 'Миша HyperX DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 1500, 'Hyperx'))
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('static/headphones.png', 'headphones', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 6768, 'Logitech'))
+               ('https://content.rozetka.com.ua/goods/images/big_tile/12934309.jpg', 'Мишка', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 5000, 'Logitech'))
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content1.rozetka.com.ua/goods/images/big/276987417.png', 'keyboard', 'Миша Razer DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 8797, 'Razer'))
+               ('https://content2.rozetka.com.ua/goods/images/big/336444973.jpg', 'Навушники', 'Миша Razer DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 11334, 'Razer'))
 
 cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content1.rozetka.com.ua/goods/images/big/276987417.png', 'keyboard', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 2357, 'Logitech'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content1.rozetka.com.ua/goods/images/big/276987417.png', 'keyboard', 'Миша HyperX DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 8643, 'Hyperx'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content1.rozetka.com.ua/goods/images/big/276987417.png', 'keyboard', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 7589, 'Logitech'))
+               ('https://content2.rozetka.com.ua/goods/images/big/336444973.jpg', 'Навушники', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 1453, 'Logitech'))
 
 
+cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+               ('https://content2.rozetka.com.ua/goods/images/big/336444973.jpg', 'Навушники', 'Миша HyperX DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 4633, 'Hyperx'))
+cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+               ('https://content2.rozetka.com.ua/goods/images/big/336444973.jpg', 'Навушники', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 6768, 'Logitech'))
+cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+               ('https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1698679785-opt.webp', 'Клавіатура', 'Миша Razer DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 8797, 'Razer'))
+
+cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+               ('https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1698679785-opt.webp', 'Клавіатура', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 2357, 'Logitech'))
+cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+               ('https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1698679785-opt.webp', 'Клавіатура', 'Миша HyperX DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 8643, 'Hyperx'))
+cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+               ('https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1698679785-opt.webp', 'Клавіатура', 'Миша Logitech DeathAdder Essential USB Black', 'Вже більше десяти років серія Razer DeathAdder є основною на світовий кіберспортивній арені.', 7589, 'Logitech'))
 
 
 connect.commit()

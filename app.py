@@ -208,45 +208,49 @@ def accessories(page=1):
     return render_template('accessories.html', accessories=accessories, page=page, total_pages=total_pages, has_prev=has_prev,
                            has_next=has_next, prev_page=prev_page, next_page=next_page, max_price=max_price, unique_types=unique[0], unique_companies=unique[1])
 
-def get_filtered_accessories(acc_type, acc_company, chosen_price, limit=9, offset=0):
+
+def get_filtered_accessories(acc_types, acc_companies, chosen_price, limit=9, offset=0):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
     query_conditions = []
     query_parameters = []
 
-    if acc_type:
-        query_conditions.append("acc_type = ?")
-        query_parameters.append(acc_type)
-    if acc_company:
-        query_conditions.append("acc_company = ?")
-        query_parameters.append(acc_company)
+    if acc_types:
+        query_conditions.append("acc_type IN ({})".format(','.join('?' * len(acc_types))))
+        query_parameters.extend(acc_types)
+    if acc_companies:
+        query_conditions.append("acc_company IN ({})".format(','.join('?' * len(acc_companies))))
+        query_parameters.extend(acc_companies)
     if chosen_price:
-        query_conditions.append("PRICE <= ?")
+        query_conditions.append("acc_price <= ?")
         query_parameters.append(chosen_price)
+
     query = "SELECT * FROM accessories"
     if query_conditions:
         query += " WHERE " + " AND ".join(query_conditions)
+
+    query += " LIMIT ? OFFSET ?"
+    query_parameters.extend([limit, offset])
 
     cursor.execute(query, tuple(query_parameters))
     all_accessories = cursor.fetchall()
 
     conn.close()
-    print(all_accessories)
     return all_accessories
+
 
 @app.route('/search_accessories', methods=['POST', "GET"])
 @app.route('/search_accessories/<int:page>', methods=['POST', "GET"])
 def search_accessories(page=1):
-    acc_type = request.args.get('type', None)
-    acc_company = request.args.get('company', None)
+    acc_types = request.args.getlist('type')
+    acc_companies = request.args.getlist('company')
     chosen_price = request.args.get('price')
     limit = 9
     offset = (page - 1) * limit
-    if acc_type or acc_company or chosen_price:
-        accessories = get_filtered_accessories(acc_type, acc_company, chosen_price, limit, offset)
-    else:
-        accessories = get_accessories()
+
+    accessories = get_filtered_accessories(acc_types, acc_companies, chosen_price, limit, offset)
+
     total_accessories = len(accessories)
     total_pages = (total_accessories + limit - 1) // limit
 
@@ -273,6 +277,8 @@ def search_accessories(page=1):
                            prev_page_url=prev_page_url, next_page_url=next_page_url)
 
 
+if __name__ == '__main__':
+    app.run(debug=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
