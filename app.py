@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for
+from flask import Flask, request, render_template, redirect, url_for, session
 import sqlite3
 
 
@@ -277,8 +277,81 @@ def search_accessories(page=1):
                            prev_page_url=prev_page_url, next_page_url=next_page_url)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+app.secret_key = 'my_secret_key_1234567890'
+
+def check_login(username, password):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM users WHERE username=? AND password=?", (username, password))
+    user_id = cursor.fetchone()
+    conn.close()
+    return user_id
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'logged_in' not in session or not session['logged_in']:
+        return redirect(url_for('profile_choice'))
+
+    user_id = session['user_id']
+
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE id=?", (user_id,))
+    user_data = cursor.fetchone()
+    conn.close()
+
+    return render_template('profile.html', user_data=user_data)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user_id = check_login(username, password)
+        if user_id:
+            session['logged_in'] = True
+            session['user_id'] = user_id[0]
+            return redirect(url_for('profile'))
+        else:
+            error = 'Неправильний логін чи пароль. Спробуйте ще раз!'
+            return render_template('login.html', error=error)
+
+
+    return render_template('login.html', error=None)
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        phone_number = request.form['phone_number']
+        username = request.form['username']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        if password != confirm_password:
+            error = 'Ви ввели різні паролі. Спробуйте ще раз.'
+            return render_template('register.html', error=error)
+
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE phone_number=?", (phone_number,))
+        existing_user = cursor.fetchone()
+
+        if existing_user:
+            error = 'Профіль з таким номером телефона вже існує.'
+            conn.close()
+            return render_template('register.html', error=error)
+
+        cursor.execute("INSERT INTO users (phone_number, username, password) VALUES (?, ?, ?)", (phone_number, username, password))
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for('login'))
+
+    return render_template('register.html', error=None)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)

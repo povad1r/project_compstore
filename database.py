@@ -2,7 +2,7 @@ import sqlite3
 
 connect = sqlite3.connect('database.db')
 
-connect.execute('''DROP TABLE accessories''')
+connect.execute('''DROP TABLE users''')
 
 # connect.execute('''CREATE TABLE IF NOT EXISTS computers (
 #                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -71,50 +71,60 @@ cursor = connect.cursor()
 #
 #
 
+#
+# connect.execute('''CREATE TABLE IF NOT EXISTS accessories (
+#                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#                     acc_image TEXT NOT NULL,
+#                     acc_type TEXT NOT NULL,
+#                     acc_name TEXT NOT NULL,
+#                     acc_desc TEXT NOT NULL,
+#                     acc_price INTEGER NOT NULL,
+#                     acc_company TEXT NOT NULL
+#                 )''')
 
-connect.execute('''CREATE TABLE IF NOT EXISTS accessories (
+
+
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                 ('https://content2.rozetka.com.ua/goods/images/big/272938087.jpg', 'Миша', 'Миша Razer DeathAdder Essential USB', 'Razer DeathAdder є основною в кіберспорті.', 1200, 'Razer'))
+#
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#             ('https://hotline.ua/img/tx/265/2652527685.jpg', 'Миша', 'Миша Logitech G Pro X', 'Найлегша бездротова мишка у світі!', 6699, 'Logitech'))
+#
+#
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://i.citrus.world/imgcache/size_800/uploads/shop/a/d/adf22f646228467a2e9359299268c79e.jpg', 'Миша', 'Миша HyperX Pulsefire Dart Wireless', 'Чудова бездротова мишка з великою батареєю.', 4299, 'HyperX'))
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://content2.rozetka.com.ua/goods/images/big/361181038.jpg', 'Миша', 'Миша Logitech G502 X', 'Найкраща миша у своєму ціновому сегменті.', 2599, 'Logitech'))
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://i.citrus.world/imgcache/size_800/uploads/shop/b/2/b22d28b08451eeaa5b9f95e6e64a7ed4.jpg', 'Навушники', 'Навушники Razer Kraken Multi Platform', 'Топові навушники за дуже топову ціну', 2499, 'Razer'))
+#
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1691741570-hypergang-2-hta-910-black-003.jpg', 'Навушники', 'Навушники HATOR Hypergang 2', 'Навушники від топового українського бренду.', 1999, 'Hator'))
+#
+#
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://content2.rozetka.com.ua/goods/images/big/336444973.jpg', 'Навушники', 'Навушники Logitech G Pro', 'Найкрутіші навушники в сфері кіберспорту.', 8999, 'Logitech'))
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1694419919-hyperx-cloud-ii-core-wireless-6y2g8aa-angle-2.jpg', 'Навушники', 'Навушники HyperX Cloud II Core Wireless', 'Чудові бездротові навушники від HyperX.', 5499, 'HyperX'))
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://content2.rozetka.com.ua/goods/images/big/392106442.jpg', 'Клавіатура', 'Клавіатура Varmilo VEA87 Panda R2', 'Дуже гарна клавіатура з неймовірним кольором.', 6499, 'Varmilo'))
+#
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://content1.rozetka.com.ua/goods/images/big/412326412.jpg', 'Клавіатура', 'Клавіатура HATOR Rockfall 2', 'Чудова дротова клавіатура від бренду Hator.', 7999, 'Hator'))
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://content1.rozetka.com.ua/goods/images/big/392116955.jpg', 'Клавіатура', 'Клавіатура Varmilo VEM87 Beijing Opera', 'Дизайн клавіатури виповнений у китайському стилі.', 8099, 'Varmilo'))
+# cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
+#                ('https://content.rozetka.com.ua/goods/images/big/188638110.jpg', 'Клавіатура', 'Клавіатура HyperX Alloy Origins', 'Неймовірна клавіатура за дуже приємну ціну.', 3299, 'HyperX'))
+#
+
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    acc_image TEXT NOT NULL,
-                    acc_type TEXT NOT NULL,
-                    acc_name TEXT NOT NULL,
-                    acc_desc TEXT NOT NULL,
-                    acc_price INTEGER NOT NULL,
-                    acc_company TEXT NOT NULL
-                )''')
-
-
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-                ('https://content2.rozetka.com.ua/goods/images/big/272938087.jpg', 'Миша', 'Миша Razer DeathAdder Essential USB', 'Razer DeathAdder є основною в кіберспорті.', 1200, 'Razer'))
-
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-            ('https://hotline.ua/img/tx/265/2652527685.jpg', 'Миша', 'Миша Logitech G Pro X', 'Найлегша бездротова мишка у світі!', 6699, 'Logitech'))
-
-
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://i.citrus.world/imgcache/size_800/uploads/shop/a/d/adf22f646228467a2e9359299268c79e.jpg', 'Миша', 'Миша HyperX Pulsefire Dart Wireless', 'Чудова бездротова мишка з великою батареєю.', 4299, 'HyperX'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content2.rozetka.com.ua/goods/images/big/361181038.jpg', 'Миша', 'Миша Logitech G502 X', 'Найкраща миша у своєму ціновому сегменті.', 2599, 'Logitech'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://i.citrus.world/imgcache/size_800/uploads/shop/b/2/b22d28b08451eeaa5b9f95e6e64a7ed4.jpg', 'Навушники', 'Навушники Razer Kraken Multi Platform', 'Топові навушники за дуже топову ціну', 2499, 'Razer'))
-
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1691741570-hypergang-2-hta-910-black-003.jpg', 'Навушники', 'Навушники HATOR Hypergang 2', 'Навушники від топового українського бренду.', 1999, 'Hator'))
-
-
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content2.rozetka.com.ua/goods/images/big/336444973.jpg', 'Навушники', 'Навушники Logitech G Pro', 'Найкрутіші навушники в сфері кіберспорту.', 8999, 'Logitech'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1694419919-hyperx-cloud-ii-core-wireless-6y2g8aa-angle-2.jpg', 'Навушники', 'Навушники HyperX Cloud II Core Wireless', 'Чудові бездротові навушники від HyperX.', 5499, 'HyperX'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content2.rozetka.com.ua/goods/images/big/392106442.jpg', 'Клавіатура', 'Клавіатура Varmilo VEA87 Panda R2', 'Дуже гарна клавіатура з неймовірним кольором.', 6499, 'Varmilo'))
-
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content1.rozetka.com.ua/goods/images/big/412326412.jpg', 'Клавіатура', 'Клавіатура HATOR Rockfall 2', 'Чудова дротова клавіатура від бренду Hator.', 7999, 'Hator'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content1.rozetka.com.ua/goods/images/big/392116955.jpg', 'Клавіатура', 'Клавіатура Varmilo VEM87 Beijing Opera', 'Дизайн клавіатури виповнений у китайському стилі.', 8099, 'Varmilo'))
-cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
-               ('https://content.rozetka.com.ua/goods/images/big/188638110.jpg', 'Клавіатура', 'Клавіатура HyperX Alloy Origins', 'Неймовірна клавіатура за дуже приємну ціну.', 3299, 'HyperX'))
-
+                    phone_number TEXT UNIQUE NOT NULL,
+                    username TEXT NOT NULL,
+                    password TEXT NOT NULL,
+                    favorite_items TEXT DEFAULT ''                    
+                  )''')
 
 connect.commit()
 
