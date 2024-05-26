@@ -52,9 +52,9 @@ def get_unique_pc():
     unique_processor = set()
     unique_ram = set()
     for computer in computers:
-        unique_videocard.add(computer[4])
-        unique_processor.add(computer[5])
-        unique_ram.add(computer[6])
+        unique_videocard.add(computer[3])
+        unique_processor.add(computer[4])
+        unique_ram.add(computer[5])
     return unique_ram, unique_processor, unique_videocard
 
 
@@ -75,7 +75,7 @@ def computers(page=1):
     return render_template('computers.html', computers=computers, page=page, total_pages=total_pages, has_prev=has_prev, has_next=has_next, prev_page=prev_page, next_page=next_page, unique_ram=unique_details[0], unique_processor=unique_details[1], unique_videocard=unique_details[2], max_price=max_price)
 
 
-def get_filtered_computers(video_card, processor, ram, chosen_price, limit=9, offset=0):
+def get_filtered_computers(video_card, processor, ram, chosen_price):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
@@ -118,7 +118,7 @@ def search_computers(page=1):
     offset = (page - 1) * limit
 
     if video_card or processor or ram or chosen_price:
-        computers = get_filtered_computers(video_card, processor, ram, chosen_price, limit, offset)
+        computers = get_filtered_computers(video_card, processor, ram, chosen_price)
     else:
         computers = get_computers()
 
@@ -209,7 +209,7 @@ def accessories(page=1):
                            has_next=has_next, prev_page=prev_page, next_page=next_page, max_price=max_price, unique_types=unique[0], unique_companies=unique[1])
 
 
-def get_filtered_accessories(acc_types, acc_companies, chosen_price, limit=9, offset=0):
+def get_filtered_accessories(acc_types, acc_companies, chosen_price):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
@@ -230,9 +230,6 @@ def get_filtered_accessories(acc_types, acc_companies, chosen_price, limit=9, of
     if query_conditions:
         query += " WHERE " + " AND ".join(query_conditions)
 
-    query += " LIMIT ? OFFSET ?"
-    query_parameters.extend([limit, offset])
-
     cursor.execute(query, tuple(query_parameters))
     all_accessories = cursor.fetchall()
 
@@ -249,7 +246,7 @@ def search_accessories(page=1):
     limit = 9
     offset = (page - 1) * limit
 
-    accessories = get_filtered_accessories(acc_types, acc_companies, chosen_price, limit, offset)
+    accessories = get_filtered_accessories(acc_types, acc_companies, chosen_price)
 
     total_accessories = len(accessories)
     total_pages = (total_accessories + limit - 1) // limit
@@ -290,7 +287,7 @@ def check_login(username, password):
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'logged_in' not in session or not session['logged_in']:
-        return redirect(url_for('profile_choice'))
+        return redirect(url_for('profile'))
 
     user_id = session['user_id']
 

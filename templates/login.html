@@ -1,17 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}Search Results{% endblock %}
+{% block title %}Логін{% endblock %}
 
 {% block content %}
-    <h1>Вход</h1>
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    <form method="post">
-        <label for="username">Логин:</label><br>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Пароль:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Войти">
-    </form>
+    <div class="row justify-content-center align-items-center" style="min-height: 69.5vh;">
+        <div class="col-md-2">
+            <h2 class="text-center mb-4">Увійти в акаунт</h2>
+            <form method="POST" class="card p-4">
+                <div class="form-group">
+                    <label for="phone_number">Логін</label>
+                    <input type="text" id="username" name="username" class="form-control" maxlength="20">
+                </div>
+                <div class="form-group">
+                    <label for="username">Пароль:</label>
+                    <input type="text" id="password" name="password" class="form-control">
+                </div>
+                    <button type="submit" class="btn btn-primary">Увійти</button>
+                {% if error %}
+                    <p class="mt-3 text-danger">{{ error }}</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
 {% endblock %}

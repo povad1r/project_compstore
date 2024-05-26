@@ -11,29 +11,31 @@
     <header class="bg-dark text-white py-3">
         <div class="container-fluid">
             <div class="container d-flex justify-content-between align-items-center">
-                {% if 'logged_in' in session and session['logged_in'] %}
-                <div class="user-profile">
-                    <img src="{{ url_for('static', filename='user_profile.jpg') }}" alt="User Profile" class="rounded-circle" width="40" height="40">
-                    <a href="/profile" class="text-white">Профіль</a>
-                </div>
-                {% endif %}
-                {% if not 'logged_in' in session and not session['logged_in'] %}
+                <div class="left-section d-flex align-items-center">
+                    {% if 'logged_in' in session and session['logged_in'] %}
+                    <div class="user-profile">
+                        <img src="{{ url_for('static', filename='user_profile.jpg') }}" alt="User Profile" class="rounded-circle" width="40" height="40">
+                        <a href="/profile" class="text-white">Профіль</a>
+                    </div>
+                    {% else %}
                     <div class="registration-login-buttons">
-                        <a href="/register" class="text-white">Реєстрація</a>
+                        <a href="/register" class="text-white mr-2">Реєстрація</a>
                         <a href="/login" class="text-white">Увійти</a>
                     </div>
-                {% endif %}
-                <nav class="navigation">
+                    {% endif %}
+                </div>
+                <nav class="navigation flex-grow-1 text-center">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item"><a href="/" class="text-white">Головна</a></li>
                         <li class="list-inline-item"><a href="/computers" class="text-white">Комп'ютери</a></li>
                         <li class="list-inline-item"><a href="/accessories" class="text-white">Аксесуари</a></li>
-                        <li class="list-inline-item"><a href="/favorites" class="text-white">Улюблені</a></li>
                     </ul>
                 </nav>
-                <div class="cart">
-                    <img src="{{ url_for('static', filename='shopping_cart.jpg') }}" alt="Shopping Cart" class="rounded-circle" width="40" height="40">
-                    <a href="/cart" class="text-white">Корзина</a>
+                <div class="right-section">
+                    <div class="cart">
+                        <img src="{{ url_for('static', filename='shopping_cart.jpg') }}" alt="Shopping Cart" class="rounded-circle" width="40" height="40">
+                        <a href="/cart" class="text-white">Корзина</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,14 +49,14 @@
                 {% for computer in computers %}
                     <div class="col-md-4 mb-3">
                         <div class="card h-100">
-                            <img src="{{ computer[1] }}" alt="{{ computer[2] }}" class="card-img-top">
+                            <img src="{{ url_for('static', filename=computer[1] + '.jpg') }}" alt="{{ computer[1] }}" class="card-img-top">
                             <div class="card-body">
-                                <h5 class="card-title">{{ computer[2] }}</h5>
-                                <p class="card-text">{{ computer[3] }}</p>
-                                <p class="card-text">Відеокарта: {{ computer[4] }}</p>
-                                <p class="card-text">Процесор: {{ computer[5] }}</p>
-                                <p class="card-text">Оперативна пам'ять: {{ computer[6] }}GB</p>
-                                <p class="card-text">Ціна: {{ computer[7] }}₴</p>
+                                <h3 class="card-title">{{ computer[1] }}</h3>
+                                <h6 class="card-text">{{ computer[2] }}</h6>
+                                <p class="card-text">Відеокарта: {{ computer[3] }}</p>
+                                <p class="card-text">Процесор: {{ computer[4] }}</p>
+                                <p class="card-text">Оперативна пам'ять: {{ computer[5] }}GB</p>
+                                <p class="card-text">Ціна: {{ computer[6] }}₴</p>
                                 <form action="/buy" method="post">
                                     <input type="hidden" name="computer_id" value="{{ computer[0] }}">
                                     <input type="submit" value="Додати в корзину" class="btn btn-secondary">

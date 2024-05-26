@@ -20,7 +20,7 @@
                                     <h5 class="card-title">{{ accessory[3] }}</h5>
                                     <p class="card-text">{{ accessory[4] }}</p>
                                     <p class="card-text">Ціна: {{ accessory[5] }}₴</p>
-                                    <a href="#" class="btn btn-primary mt-auto">Детальніше</a>
+                                    <a href="/cart" class="btn btn-primary mt-auto">Додати в корзину</a>
                                 </div>
                             </div>
                         </div>
@@ -31,19 +31,19 @@
                         <ul class="pagination justify-content-center">
                             {% if has_prev %}
                                 <li class="page-item">
-                                    <a class="page-link" href="{{ url_for('accessories', page=prev_page) }}" aria-label="Previous">
+                                    <a class="page-link" href="{{ prev_page_url }}" aria-label="Previous">
                                         <span aria-hidden="true">Попередня</span>
                                     </a>
                                 </li>
                             {% endif %}
                             {% for num in range(1, total_pages + 1) %}
                                 <li class="page-item {% if num == page %}active{% endif %}">
-                                    <a class="page-link" href="{{ url_for('accessories', page=num) }}">{{ num }}</a>
+                                    <a class="page-link" href="{{ url_for('search_accessories', page=num) }}{% if request.query_string %}?{{ request.query_string.decode('utf-8') }}{% endif %}">{{ num }}</a>
                                 </li>
                             {% endfor %}
                             {% if has_next %}
                                 <li class="page-item">
-                                    <a class="page-link" href="{{ url_for('accessories', page=next_page) }}" aria-label="Next">
+                                    <a class="page-link" href="{{ next_page_url }}" aria-label="Next">
                                         <span aria-hidden="true">Наступна</span>
                                     </a>
                                 </li>

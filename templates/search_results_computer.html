@@ -13,15 +13,15 @@
                     {% for computer in computers %}
                         <div class="col-md-4 mb-3 d-flex align-items-stretch">
                             <div class="card">
-                                <img src="{{ computer[1] }}" class="card-img-top" alt="{{ computer[2] }}">
+                                <img src="{{ url_for('static', filename=computer[1] + '.jpg') }}" class="card-img-top" alt="{{ computer[1] }}">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ computer[2] }}</h5>
-                                    <p class="card-text">{{ computer[3] }}</p>
-                                    <p class="card-text">Відеокарта: {{ computer[4] }}</p>
-                                    <p class="card-text">Процесор: {{ computer[5] }}</p>
-                                    <p class="card-text">Оперативна пам'ять: {{ computer[6] }}GB</p>
-                                    <p class="card-text">Ціна: {{ computer[7] }}₴</p>
-                                    <a href="#" class="btn btn-primary">Детальніше</a>
+                                    <h5 class="card-title">{{ computer[1] }}</h5>
+                                    <p class="card-text">{{ computer[2] }}</p>
+                                    <p class="card-text">Відеокарта: {{ computer[3] }}</p>
+                                    <p class="card-text">Процесор: {{ computer[4] }}</p>
+                                    <p class="card-text">Оперативна пам'ять: {{ computer[5] }}GB</p>
+                                    <p class="card-text">Ціна: {{ computer[6] }}₴</p>
+                                    <a href="/cart" class="btn btn-primary">Додати в корзину</a>
                                 </div>
                             </div>
                         </div>
