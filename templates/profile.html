@@ -4,10 +4,12 @@
 
 {% block content %}
     <body>
-        <h1>Профиль</h1>
-        <p>Номер телефона: {{ user_data[1] }}</p>
-        <p>Логин: {{ user_data[2] }}</p>
-        <p>Пароль: {{ user_data[3] }}</p>
-        <a href="{{ url_for('logout') }}" class="btn btn-danger">Вийти з аккаунта</a>
+        <div class="row justify-content-center align-items-center" style="min-height: 69.5vh;">
+            <h1>Профиль</h1>
+            <p>Номер телефона: {{ user_data[1] }}</p>
+            <p>Логин: {{ user_data[2] }}</p>
+            <p>Пароль: {{ user_data[3] }}</p>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Вийти з аккаунта</a>
+        </div>
     </body>
 {% endblock %}

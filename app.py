@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, flash
 import sqlite3
 
 
@@ -57,6 +57,38 @@ def get_unique_pc():
         unique_ram.add(computer[5])
     return unique_ram, unique_processor, unique_videocard
 
+@app.route('/add_to_favorites', methods=['POST'])
+def add_to_favorites():
+    computer_id = request.form.get('computer_id')
+    user_id = session.get('user_id')
+
+    if not user_id:
+        flash("Please log in to add items to your favorites.", "warning")
+        return redirect(url_for('login'))
+
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT favorite_items FROM users WHERE id = ?", (user_id,))
+    favorite_items = cursor.fetchone()[0]
+    if favorite_items:
+        favorite_items_list = favorite_items.split(',')
+        if computer_id in favorite_items_list:
+            flash("This item is already in your favorites.", "info")
+            conn.close()
+            return redirect(request.referrer)
+
+        favorite_items_list.append(computer_id)
+        favorite_items = ','.join(favorite_items_list)
+    else:
+        favorite_items = computer_id
+
+    cursor.execute("UPDATE users SET favorite_items = ? WHERE id = ?", (favorite_items, user_id))
+    conn.commit()
+    conn.close()
+
+    flash("Item added to your favorites!", "success")
+    return redirect(request.referrer)
 
 @app.route('/computers')
 @app.route('/computers/<int:page>')
