@@ -22,6 +22,15 @@
                                     <p class="card-text">Оперативна пам'ять: {{ computer[5] }}GB</p>
                                     <p class="card-text">Ціна: {{ computer[6] }}₴</p>
                                     <a href="/cart" class="btn btn-primary">Додати в корзину</a>
+                                    {% if computer[0] in user_favorites %}
+                                        <form method="POST" action="{{ url_for('remove_favorite', computer_id=computer[0]) }}" style="display:inline;">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Прибрати з улюблених?')">🤍</button>
+                                        </form>
+                                    {% else %}
+                                        <form method="POST" action="{{ url_for('add_favorite', computer_id=computer[0]) }}" style="display:inline;">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Додати в улюблені')">❤</button>
+                                        </form>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

@@ -72,6 +72,16 @@
                             <p class="card-text">{{ accessory[4] }}</p>
                             <p class="card-text">Ціна: {{ accessory[5] }}₴</p>
                             <a href="/cart" class="btn btn-primary">Додати в корзину</a>
+                            {% if accessory[0] in user_favorite_accessories %}
+                                <form method="POST" action="{{ url_for('remove_favorite', item_type='acccessory', item_id=accessory[0]) }}" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Прибрати з улюблених')">🤍</button>
+                                </form>
+                            {% else %}
+                                <form method="POST" action="{{ url_for('add_favorite', item_type='accessory', item_id=accessory[0]) }}" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Додати в улюблені')">❤</button>
+                                </form>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>

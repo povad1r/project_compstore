@@ -10,6 +10,8 @@
             <p>Логин: {{ user_data[2] }}</p>
             <p>Пароль: {{ user_data[3] }}</p>
             <a href="{{ url_for('logout') }}" class="btn btn-danger">Вийти з аккаунта</a>
+            <p>user_favorirte_accessories= {{ user_favorite_accessories }}</p>
+            <p>user_favorite_computers = {{ user_favorites_computers }}</p>
         </div>
     </body>
 {% endblock %}

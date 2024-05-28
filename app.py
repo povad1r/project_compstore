@@ -57,39 +57,6 @@ def get_unique_pc():
         unique_ram.add(computer[5])
     return unique_ram, unique_processor, unique_videocard
 
-@app.route('/add_to_favorites', methods=['POST'])
-def add_to_favorites():
-    computer_id = request.form.get('computer_id')
-    user_id = session.get('user_id')
-
-    if not user_id:
-        flash("Please log in to add items to your favorites.", "warning")
-        return redirect(url_for('login'))
-
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT favorite_items FROM users WHERE id = ?", (user_id,))
-    favorite_items = cursor.fetchone()[0]
-    if favorite_items:
-        favorite_items_list = favorite_items.split(',')
-        if computer_id in favorite_items_list:
-            flash("This item is already in your favorites.", "info")
-            conn.close()
-            return redirect(request.referrer)
-
-        favorite_items_list.append(computer_id)
-        favorite_items = ','.join(favorite_items_list)
-    else:
-        favorite_items = computer_id
-
-    cursor.execute("UPDATE users SET favorite_items = ? WHERE id = ?", (favorite_items, user_id))
-    conn.commit()
-    conn.close()
-
-    flash("Item added to your favorites!", "success")
-    return redirect(request.referrer)
-
 @app.route('/computers')
 @app.route('/computers/<int:page>')
 def computers(page=1):
@@ -104,8 +71,16 @@ def computers(page=1):
     next_page = page + 1
     unique_details = get_unique_pc()
     max_price = get_max_price()
-    return render_template('computers.html', computers=computers, page=page, total_pages=total_pages, has_prev=has_prev, has_next=has_next, prev_page=prev_page, next_page=next_page, unique_ram=unique_details[0], unique_processor=unique_details[1], unique_videocard=unique_details[2], max_price=max_price)
 
+    user_favorite_computers = []
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        user_favorite_computers = get_user_favorite_computers(user_id)
+
+    return render_template('computers.html', computers=computers, page=page, total_pages=total_pages, has_prev=has_prev,
+                           has_next=has_next, prev_page=prev_page, next_page=next_page, unique_ram=unique_details[0],
+                           unique_processor=unique_details[1], unique_videocard=unique_details[2], max_price=max_price,
+                           user_favorites=user_favorite_computers)
 
 def get_filtered_computers(video_card, processor, ram, chosen_price):
     conn = sqlite3.connect('database.db')
@@ -172,10 +147,15 @@ def search_computers(page=1):
 
     current_page_computers = computers[offset: offset + limit]
 
-    return render_template('search_results_computer.html', computers=current_page_computers, page=page, total_pages=total_pages,
-                           has_prev=has_prev, has_next=has_next, prev_page=prev_page, next_page=next_page,
-                           prev_page_url=prev_page_url, next_page_url=next_page_url)
+    user_favorite_computers = []
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        user_favorite_computers = get_user_favorite_computers(user_id)
 
+    return render_template('search_results_computer.html', computers=current_page_computers, page=page,
+                           total_pages=total_pages,
+                           has_prev=has_prev, has_next=has_next, prev_page=prev_page, next_page=next_page,
+                           prev_page_url=prev_page_url, next_page_url=next_page_url, user_favorite_computers=user_favorite_computers)
 
 def get_accessories():
     conn = sqlite3.connect('database.db')
@@ -237,8 +217,13 @@ def accessories(page=1):
     prev_page = page - 1
     next_page = page + 1
     max_price = get_max_price_accessories()
+    user_favorite_accessories = []
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        user_favorite_accessories = get_user_favorite_accessories(user_id)
     return render_template('accessories.html', accessories=accessories, page=page, total_pages=total_pages, has_prev=has_prev,
-                           has_next=has_next, prev_page=prev_page, next_page=next_page, max_price=max_price, unique_types=unique[0], unique_companies=unique[1])
+                           has_next=has_next, prev_page=prev_page, next_page=next_page, max_price=max_price, unique_types=unique[0], unique_companies=unique[1],
+                           user_favorite_accessories=user_favorite_accessories)
 
 
 def get_filtered_accessories(acc_types, acc_companies, chosen_price):
@@ -299,11 +284,14 @@ def search_accessories(page=1):
             "utf-8")
 
     current_page_accessories = accessories[offset: offset + limit]
-
+    user_favorite_accessories = []
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        user_favorite_accessories = get_user_favorite_accessories(user_id)
     return render_template('search_results_accessories.html', accessories=current_page_accessories, page=page,
                            total_pages=total_pages,
                            has_prev=has_prev, has_next=has_next, prev_page=prev_page, next_page=next_page,
-                           prev_page_url=prev_page_url, next_page_url=next_page_url)
+                           prev_page_url=prev_page_url, next_page_url=next_page_url, user_favorite_accessories=user_favorite_accessories)
 
 
 app.secret_key = 'my_secret_key_1234567890'
@@ -316,12 +304,90 @@ def check_login(username, password):
     conn.close()
     return user_id
 
+
+def update_user_favorites(user_id, item_id, action, table_name):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    # Determine the column name based on the table name
+    favorites_column = 'favorite_accessories' if table_name == 'accessories' else 'favorite_computers'
+
+    cursor.execute(f"SELECT {favorites_column} FROM users WHERE id = ?", (user_id,))
+    favorite_items = cursor.fetchone()[0]
+
+    if favorite_items:
+        favorites_list = favorite_items.split(',')
+    else:
+        favorites_list = []
+
+    if action == 'add' and str(item_id) not in favorites_list:
+        favorites_list.append(str(item_id))
+    elif action == 'remove' and str(item_id) in favorites_list:
+        favorites_list.remove(str(item_id))
+
+    new_favorites = ','.join(favorites_list)
+    cursor.execute(f"UPDATE users SET {favorites_column} = ? WHERE id = ?", (new_favorites, user_id))
+    conn.commit()
+    conn.close()
+@app.route('/add_favorite/<item_type>/<int:item_id>', methods=['POST'])
+def add_favorite(item_type, item_id):
+    if 'logged_in' not in session or not session['logged_in']:
+        return redirect(url_for('register'))
+
+    user_id = session['user_id']
+    table_name = 'accessories' if item_type == 'accessory' else 'computers'
+    update_user_favorites(user_id, item_id, 'add', table_name)
+    return redirect(request.referrer)
+
+@app.route('/remove_favorite/<item_type>/<int:item_id>', methods=['POST'])
+def remove_favorite(item_type, item_id):
+    if 'logged_in' not in session or not session['logged_in']:
+        return redirect(url_for('register'))
+
+    user_id = session['user_id']
+    table_name = 'accessories' if item_type == 'accessory' else 'computers'
+    update_user_favorites(user_id, item_id, 'remove', table_name)
+    return redirect(request.referrer)
+
+
+def get_user_favorite_computers(user_id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT favorite_computers FROM users WHERE id = ?", (user_id,))
+    favorite_computers = cursor.fetchone()[0]
+    favorite_computers_list = [] if favorite_computers is None else [int(item) for item in
+                                                                     favorite_computers.split(',')]
+
+
+    conn.close()
+
+    return favorite_computers_list
+
+
+def get_user_favorite_accessories(user_id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+
+    cursor.execute("SELECT favorite_accessories FROM users WHERE id = ?", (user_id,))
+    favorite_accessories = cursor.fetchone()[0]
+    favorite_accessories_list = [] if favorite_accessories is None else [int(item) for item in
+                                                                         favorite_accessories.split(',')]
+
+    conn.close()
+
+    return favorite_accessories_list
+
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'logged_in' not in session or not session['logged_in']:
-        return redirect(url_for('profile'))
+        return redirect(url_for('login'))
 
     user_id = session['user_id']
+    user_favorite_computers = get_user_favorite_computers(user_id)
+    user_favorite_accessories = get_user_favorite_accessories(user_id)
 
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -329,7 +395,8 @@ def profile():
     user_data = cursor.fetchone()
     conn.close()
 
-    return render_template('profile.html', user_data=user_data)
+    return render_template('profile.html', user_data=user_data, user_favorites_computers=user_favorite_computers, user_favorite_accessories=user_favorite_accessories)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
