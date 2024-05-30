@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+<body>
+    <h1>Корзина</h1>
+    <ul>
+        {% for item in items %}
+        <li>
+            {% if item %}
+                    <p>Товар: {{ item[1] }}</p>
+                    <p>Описание: {{ item[2] }}</p>
+                    <p>Цена: {{ item[6] }} грн</p>
+            {% else %}
+                <p>Товар не найден</p>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="/">Продолжить покупки</a>
+</body>
+{% endblock %}

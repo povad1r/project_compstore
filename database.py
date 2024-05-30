@@ -1,9 +1,9 @@
 import sqlite3
 
 connect = sqlite3.connect('database.db')
-
-# connect.execute('''DROP TABLE accessories''')
 #
+# connect.execute('''DROP TABLE users''')
+# #
 # connect.execute('''CREATE TABLE IF NOT EXISTS computers (
 #                     id INTEGER PRIMARY KEY AUTOINCREMENT,
 #                     computer_name TEXT NOT NULL,
@@ -90,15 +90,17 @@ cursor = connect.cursor()
 #                     acc_company TEXT NOT NULL
 #                 )''')
 #
-#cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-                    # id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  #   phone_number TEXT UNIQUE NOT NULL,
-                  #   username TEXT NOT NULL,
-                  #   password TEXT NOT NULL,
-                  #   favorite_computers TEXT,
-                  #   favorite_accessories TEXT
-                  # )''')
-#
+cursor.execute('''CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    phone_number TEXT UNIQUE NOT NULL,
+                    username TEXT NOT NULL,
+                    password TEXT NOT NULL,
+                    favorite_computers TEXT,
+                    favorite_accessories TEXT,
+                    accessories_cart TEXT,
+                    computers_cart TEXT        
+                  )''')
+
 # cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
 #                 ('https://content2.rozetka.com.ua/goods/images/big/272938087.jpg', 'Миша', 'Миша Razer DeathAdder Essential USB', 'Razer DeathAdder є основною в кіберспорті.', 1200, 'Razer'))
 #
@@ -133,7 +135,7 @@ cursor = connect.cursor()
 #
 
 #
-cursor.execute('''DROP TABLE users''')
+# cursor.execute('''DROP TABLE users''')
 # cursor.execute('''CREATE TABLE IF NOT EXISTS users (
 #                     id INTEGER PRIMARY KEY AUTOINCREMENT,
 #                     phone_number TEXT UNIQUE NOT NULL,
@@ -158,9 +160,9 @@ cursor.execute('''DROP TABLE users''')
 # print(c111)
 
 #
-cursor.execute("INSERT INTO users(phone_number, username, password) VALUES(?,?,?)",
-('+380509253658', 'povad1r', '123'))
-
+# cursor.execute("INSERT INTO users(phone_number, username, password) VALUES(?,?,?)",
+# ('+380509253658', 'povad1r', '123'))
+#
 connect.commit()
 
 

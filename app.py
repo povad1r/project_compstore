@@ -1,6 +1,5 @@
-from flask import Flask, request, render_template, redirect, url_for, session, flash
+from flask import Flask, request, render_template, redirect, url_for, session
 import sqlite3
-
 
 app = Flask(__name__)
 
@@ -12,6 +11,7 @@ def get_computers():
     computers = cursor.fetchall()
     conn.close()
     return computers
+
 
 @app.route('/')
 def home():
@@ -57,6 +57,7 @@ def get_unique_pc():
         unique_ram.add(computer[5])
     return unique_ram, unique_processor, unique_videocard
 
+
 @app.route('/computers')
 @app.route('/computers/<int:page>')
 def computers(page=1):
@@ -81,6 +82,7 @@ def computers(page=1):
                            has_next=has_next, prev_page=prev_page, next_page=next_page, unique_ram=unique_details[0],
                            unique_processor=unique_details[1], unique_videocard=unique_details[2], max_price=max_price,
                            user_favorite_computers=user_favorite_computers)
+
 
 def get_filtered_computers(video_card, processor, ram, chosen_price):
     conn = sqlite3.connect('database.db')
@@ -141,9 +143,11 @@ def search_computers(page=1):
     next_page_url = None
 
     if has_prev:
-        prev_page_url = request.url_root + 'search_computers/' + str(prev_page) + '?' + request.query_string.decode("utf-8")
+        prev_page_url = request.url_root + 'search_computers/' + str(prev_page) + '?' + request.query_string.decode(
+            "utf-8")
     if has_next:
-        next_page_url = request.url_root + 'search_computers/' + str(next_page) + '?' + request.query_string.decode("utf-8")
+        next_page_url = request.url_root + 'search_computers/' + str(next_page) + '?' + request.query_string.decode(
+            "utf-8")
 
     current_page_computers = computers[offset: offset + limit]
 
@@ -155,7 +159,9 @@ def search_computers(page=1):
     return render_template('search_results_computer.html', computers=current_page_computers, page=page,
                            total_pages=total_pages,
                            has_prev=has_prev, has_next=has_next, prev_page=prev_page, next_page=next_page,
-                           prev_page_url=prev_page_url, next_page_url=next_page_url, user_favorite_computers=user_favorite_computers)
+                           prev_page_url=prev_page_url, next_page_url=next_page_url,
+                           user_favorite_computers=user_favorite_computers)
+
 
 def get_accessories():
     conn = sqlite3.connect('database.db')
@@ -164,6 +170,7 @@ def get_accessories():
     accessories = cursor.fetchall()
     conn.close()
     return accessories
+
 
 def get_page_accessories(offset=0, limit=9):
     conn = sqlite3.connect('database.db')
@@ -195,6 +202,7 @@ def get_max_price_accessories():
     max_price_accessories = cursor.fetchone()[0]
     return max_price_accessories
 
+
 def get_count_accessories():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -202,6 +210,7 @@ def get_count_accessories():
     count = cursor.fetchone()[0]
     conn.close()
     return count
+
 
 @app.route('/accessories')
 @app.route('/accessories/<int:page>')
@@ -221,8 +230,10 @@ def accessories(page=1):
     if 'logged_in' in session and session['logged_in']:
         user_id = session['user_id']
         user_favorite_accessories = get_user_favorite_accessories(user_id)
-    return render_template('accessories.html', accessories=accessories, page=page, total_pages=total_pages, has_prev=has_prev,
-                           has_next=has_next, prev_page=prev_page, next_page=next_page, max_price=max_price, unique_types=unique[0], unique_companies=unique[1],
+    return render_template('accessories.html', accessories=accessories, page=page, total_pages=total_pages,
+                           has_prev=has_prev,
+                           has_next=has_next, prev_page=prev_page, next_page=next_page, max_price=max_price,
+                           unique_types=unique[0], unique_companies=unique[1],
                            user_favorite_accessories=user_favorite_accessories)
 
 
@@ -291,10 +302,12 @@ def search_accessories(page=1):
     return render_template('search_results_accessories.html', accessories=current_page_accessories, page=page,
                            total_pages=total_pages,
                            has_prev=has_prev, has_next=has_next, prev_page=prev_page, next_page=next_page,
-                           prev_page_url=prev_page_url, next_page_url=next_page_url, user_favorite_accessories=user_favorite_accessories)
+                           prev_page_url=prev_page_url, next_page_url=next_page_url,
+                           user_favorite_accessories=user_favorite_accessories)
 
 
 app.secret_key = 'my_secret_key_1234567890'
+
 
 def check_login(username, password):
     conn = sqlite3.connect('database.db')
@@ -327,6 +340,8 @@ def update_user_favorites(user_id, item_id, action, table_name):
     cursor.execute(f"UPDATE users SET {favorites_column} = ? WHERE id = ?", (new_favorites, user_id))
     conn.commit()
     conn.close()
+
+
 @app.route('/add_favorite/<item_type>/<int:item_id>', methods=['POST'])
 def add_favorite(item_type, item_id):
     if 'logged_in' not in session or not session['logged_in']:
@@ -336,6 +351,7 @@ def add_favorite(item_type, item_id):
     table_name = 'accessories' if item_type == 'accessory' else 'computers'
     update_user_favorites(user_id, item_id, 'add', table_name)
     return redirect(request.referrer)
+
 
 @app.route('/remove_favorite/<item_type>/<int:item_id>', methods=['POST'])
 def remove_favorite(item_type, item_id):
@@ -381,6 +397,7 @@ def get_user_favorite_accessories(user_id):
 
     return favorite_accessories_list
 
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'logged_in' not in session or not session['logged_in']:
@@ -409,12 +426,16 @@ def profile():
 
     conn.close()
 
-    return render_template('profile.html', user=user_data, favorite_computers=favorite_computers, favorite_accessories=favorite_accessories, show_password=show_password)
+    return render_template('profile.html', user=user_data, favorite_computers=favorite_computers,
+                           favorite_accessories=favorite_accessories, show_password=show_password)
+
 
 @app.route('/toggle_password', methods=['POST'])
 def toggle_password():
     session['show_password'] = not session.get('show_password', False)
     return redirect(url_for('profile'))
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -430,8 +451,9 @@ def login():
             error = 'Неправильний логін чи пароль. Спробуйте ще раз!'
             return render_template('login.html', error=error)
 
-
     return render_template('login.html', error=None)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -453,7 +475,8 @@ def register():
             conn.close()
             return render_template('register.html', error=error)
 
-        cursor.execute("INSERT INTO users (phone_number, username, password) VALUES (?, ?, ?)", (phone_number, username, password))
+        cursor.execute("INSERT INTO users (phone_number, username, password) VALUES (?, ?, ?)",
+                       (phone_number, username, password))
         conn.commit()
         conn.close()
 
@@ -461,10 +484,73 @@ def register():
 
     return render_template('register.html', error=None)
 
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('home'))
+
+def add_to_cart(user_id, item_type, item_id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    if item_type == 'computer':
+        cursor.execute("SELECT * FROM computers WHERE id=?", (item_id,))
+    elif item_type == 'accessory':
+        cursor.execute("SELECT * FROM accessories WHERE id=?", (item_id,))
+
+    item = cursor.fetchone()
+
+    if item:
+        cursor.execute("SELECT computers_cart FROM users WHERE id=?", (user_id,))
+        cart = cursor.fetchone()[0]
+        if cart:
+            cart = eval(cart)
+            cart.append({'item_type': item_type, 'item_id': item_id})
+            cursor.execute("UPDATE users SET computers_cart=? WHERE id=?", (str(cart), user_id))
+        else:
+            cursor.execute("UPDATE users SET computers_cart=? WHERE id=?", (str([{'item_type': item_type, 'item_id': item_id}]), user_id))
+
+        conn.commit()
+        conn.close()
+
+@app.route('/add_to_cart/<item_type>/<item_id>', methods=['POST'])
+def add_to_cart_route(item_type, item_id):
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        add_to_cart(user_id, item_type, item_id)
+        return redirect(url_for('cart'))
+    else:
+        return redirect(url_for('register'))
+def get_cart_items(user_id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT computers_cart FROM users WHERE id=?", (user_id,))
+    cart = cursor.fetchone()[0]
+
+    items = []
+    if cart:
+        cart = eval(cart)
+        for item in cart:
+            if item['item_type'] == 'computer':
+                cursor.execute("SELECT * FROM computers WHERE id=?", (item['item_id'],))
+            elif item['item_type'] == 'accessory':
+                cursor.execute("SELECT * FROM accessories WHERE id=?", (item['item_id'],))
+            items.append(cursor.fetchone())
+
+    conn.close()
+    return items
+
+@app.route('/cart')
+def cart():
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        items = get_cart_items(user_id)
+        return render_template('cart.html', items=items)
+    else:
+        return redirect(url_for('register'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

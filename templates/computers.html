@@ -61,17 +61,20 @@
                             <p class="card-text">Процесор: {{ computer[4] }}</p>
                             <p class="card-text">Оперативна пам'ять: {{ computer[5] }}GB</p>
                             <p class="card-text">Ціна: {{ computer[6] }}₴</p>
-                            <a href="/cart" class="btn btn-primary">Додати в корзину</a>
-                            {% if computer[0] in user_favorite_computers %}
-                                <form method="POST" action="{{ url_for('remove_favorite', item_type='computer', item_id=computer[0]) }}" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Прибрати з улюблених')">❤</button>
+                            <div class="d-flex">
+                                <form method="POST" class="d-flex" action="{{ url_for('add_to_cart_route', item_type='computer', item_id=computer[0]) }}">
+                                    <button type="submit" class="btn btn-primary mr-2">Додати в корзину</button>
                                 </form>
-                            {% else %}
-                                <form method="POST" action="{{ url_for('add_favorite', item_type='computer', item_id=computer[0]) }}" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Додати в улюблені')">🤍</button>
-                                </form>
-                            {% endif %}
-
+                                {% if computer[0] in user_favorite_computers %}
+                                    <form method="POST" action="{{ url_for('remove_favorite', item_type='computer', item_id=computer[0]) }}" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm float-right" onclick="return confirm('Прибрати з улюблених')">❤</button>
+                                    </form>
+                                {% else %}
+                                    <form method="POST" action="{{ url_for('add_favorite', item_type='computer', item_id=computer[0]) }}" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm float-right" onclick="return confirm('Додати в улюблені')">🤍</button>
+                                    </form>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
