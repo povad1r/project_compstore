@@ -1,17 +1,123 @@
 {% extends 'base.html' %}
 
-{% block title %}Search Results{% endblock %}
+{% block title %}Профіль{% endblock %}
 
 {% block content %}
-    <body>
-        <div class="row justify-content-center align-items-center" style="min-height: 69.5vh;">
-            <h1>Профиль</h1>
-            <p>Номер телефона: {{ user_data[1] }}</p>
-            <p>Логин: {{ user_data[2] }}</p>
-            <p>Пароль: {{ user_data[3] }}</p>
-            <a href="{{ url_for('logout') }}" class="btn btn-danger">Вийти з аккаунта</a>
-            <p>user_favorirte_accessories= {{ user_favorite_accessories }}</p>
-            <p>user_favorite_computers = {{ user_favorites_computers }}</p>
+<body>
+    <div class="container my-5">
+        <div class="row">
+            <!-- Left Column for Account Information -->
+            <div class="col-md-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header text-center bg-primary text-white">
+                        <h2>Профиль</h2>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Номер телефона:</strong> {{ user[1] }}</p>
+                        <p><strong>Логин:</strong> {{ user[2] }}</p>
+                        <p><strong>Пароль:</strong> {{ user[3] }}</p>
+                        <a href="{{ url_for('logout') }}" class="btn btn-danger btn-block mt-3">Вийти з аккаунта</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column for Favorite Items -->
+            <div class="col-md-8">
+                <!-- Favorite Computers -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h4>Избранные компьютеры</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if favorite_computers %}
+                            <div id="favoriteComputersCarousel" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for computer in favorite_computers %}
+                                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="card">
+                                                <img src="{{ url_for('static', filename=computer[1] + '.jpg') }}" class="card-img-top" alt="{{ computer[1] }}">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ computer[1] }}</h5>
+                                                    <p class="card-text">{{ computer[2] }}</p>
+                                                    <p class="card-text">Відеокарта: {{ computer[3] }}</p>
+                                                    <p class="card-text">Процесор: {{ computer[4] }}</p>
+                                                    <p class="card-text">Оперативна пам'ять: {{ computer[5] }}GB</p>
+                                                    <p class="card-text">Ціна: {{ computer[6] }}₴</p>
+                                                    <a href="/cart" class="btn btn-primary">Додати в корзину</a>
+                                                    {% if computer[0] in user_favorite_computers %}
+                                                        <form method="POST" action="{{ url_for('remove_favorite', item_type='computer', item_id=computer[0]) }}" style="display:inline;">
+                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Прибрати з улюблених')">❤</button>
+                                                        </form>
+                                                    {% else %}
+                                                        <form method="POST" action="{{ url_for('add_favorite', item_type='computer', item_id=computer[0]) }}" style="display:inline;">
+                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Додати в улюблені')">🤍</button>
+                                                        </form>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#favoriteComputersCarousel" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#favoriteComputersCarousel" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        {% else %}
+                            <p>Ви ще не додали жодного улюбленого комп'ютера.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Favorite Accessories -->
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4>Избранные аксессуары</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if favorite_accessories %}
+                            <div id="favoriteAccessoriesCarousel" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for accessory in favorite_accessories %}
+                                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                        <div class="card">
+                                            <img src="{{ url_for('static', filename=accessory[4]) }}" class="card-img-top" alt="{{ accessory[1] }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ accessory[1] }}</h5>
+                                                <p class="card-text">{{ accessory[2] }}</p>
+                                                <p class="card-text">Ціна: {{ accessory[3] }}₴</p>
+                                                <a href="/cart" class="btn btn-primary">Додати в корзину</a>
+                                                <form method="POST" action="{{ url_for('remove_favorite', item_type='accessory', item_id=accessory[0]) }}" style="display:inline;">
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Прибрати з улюблених')">❤</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#favoriteAccessoriesCarousel" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#favoriteAccessoriesCarousel" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        {% else %}
+                            <p>Ви ще не додали жодного улюбленого аксесуара.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-    </body>
+    </div>
+</body>
 {% endblock %}

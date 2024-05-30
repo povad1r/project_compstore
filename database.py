@@ -70,6 +70,15 @@ cursor = connect.cursor()
 
 # #
 
+# connect.execute('''CREATE TABLE IF NOT EXISTS computers (
+#                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#                     computer_name TEXT NOT NULL,
+#                     computer_desc TEXT NOT NULL,
+#                     GPU TEXT NOT NULL,
+#                     CPU TEXT NOT NULL,
+#                     RAM INTEGER NOT NULL,
+#                     price INTEGER NOT NULL
+#                 )''')
 #
 # connect.execute('''CREATE TABLE IF NOT EXISTS accessories (
 #                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -81,7 +90,14 @@ cursor = connect.cursor()
 #                     acc_company TEXT NOT NULL
 #                 )''')
 #
-#
+#cursor.execute('''CREATE TABLE IF NOT EXISTS users (
+                    # id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  #   phone_number TEXT UNIQUE NOT NULL,
+                  #   username TEXT NOT NULL,
+                  #   password TEXT NOT NULL,
+                  #   favorite_computers TEXT,
+                  #   favorite_accessories TEXT
+                  # )''')
 #
 # cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
 #                 ('https://content2.rozetka.com.ua/goods/images/big/272938087.jpg', 'Миша', 'Миша Razer DeathAdder Essential USB', 'Razer DeathAdder є основною в кіберспорті.', 1200, 'Razer'))
@@ -127,14 +143,14 @@ cursor.execute('''DROP TABLE users''')
 #                     favorite_accessories TEXT DEFAULT
 #                   )''')
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    phone_number TEXT UNIQUE NOT NULL,
-                    username TEXT NOT NULL,
-                    password TEXT NOT NULL,
-                    favorite_computers TEXT,
-                    favorite_accessories TEXT
-                  )''')
+# cursor.execute('''CREATE TABLE IF NOT EXISTS users (
+#                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#                     phone_number TEXT UNIQUE NOT NULL,
+#                     username TEXT NOT NULL,
+#                     password TEXT NOT NULL,
+#                     favorite_computers TEXT,
+#                     favorite_accessories TEXT
+#                   )''')
 
 
 # cursor.execute("SELECT * from users")

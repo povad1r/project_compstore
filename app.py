@@ -80,7 +80,7 @@ def computers(page=1):
     return render_template('computers.html', computers=computers, page=page, total_pages=total_pages, has_prev=has_prev,
                            has_next=has_next, prev_page=prev_page, next_page=next_page, unique_ram=unique_details[0],
                            unique_processor=unique_details[1], unique_videocard=unique_details[2], max_price=max_price,
-                           user_favorites=user_favorite_computers)
+                           user_favorite_computers=user_favorite_computers)
 
 def get_filtered_computers(video_card, processor, ram, chosen_price):
     conn = sqlite3.connect('database.db')
@@ -308,8 +308,6 @@ def check_login(username, password):
 def update_user_favorites(user_id, item_id, action, table_name):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-
-    # Determine the column name based on the table name
     favorites_column = 'favorite_accessories' if table_name == 'accessories' else 'favorite_computers'
 
     cursor.execute(f"SELECT {favorites_column} FROM users WHERE id = ?", (user_id,))
@@ -356,9 +354,11 @@ def get_user_favorite_computers(user_id):
 
     cursor.execute("SELECT favorite_computers FROM users WHERE id = ?", (user_id,))
     favorite_computers = cursor.fetchone()[0]
-    favorite_computers_list = [] if favorite_computers is None else [int(item) for item in
-                                                                     favorite_computers.split(',')]
 
+    if favorite_computers:
+        favorite_computers_list = [int(item) for item in favorite_computers.split(',') if item]
+    else:
+        favorite_computers_list = []
 
     conn.close()
 
@@ -369,16 +369,17 @@ def get_user_favorite_accessories(user_id):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-
     cursor.execute("SELECT favorite_accessories FROM users WHERE id = ?", (user_id,))
     favorite_accessories = cursor.fetchone()[0]
-    favorite_accessories_list = [] if favorite_accessories is None else [int(item) for item in
-                                                                         favorite_accessories.split(',')]
+
+    if favorite_accessories:
+        favorite_accessories_list = [int(item) for item in favorite_accessories.split(',') if item]
+    else:
+        favorite_accessories_list = []
 
     conn.close()
 
     return favorite_accessories_list
-
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -386,18 +387,29 @@ def profile():
         return redirect(url_for('login'))
 
     user_id = session['user_id']
-    user_favorite_computers = get_user_favorite_computers(user_id)
-    user_favorite_accessories = get_user_favorite_accessories(user_id)
-
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users WHERE id=?", (user_id,))
     user_data = cursor.fetchone()
+
+    user_favorite_computers = get_user_favorite_computers(user_id)
+    user_favorite_accessories = get_user_favorite_accessories(user_id)
+
+    if user_favorite_computers:
+        favorite_computers_query = f'SELECT * FROM computers WHERE id IN ({",".join("?" * len(user_favorite_computers))})'
+        favorite_computers = cursor.execute(favorite_computers_query, user_favorite_computers).fetchall()
+    else:
+        favorite_computers = []
+
+    if user_favorite_accessories:
+        favorite_accessories_query = f'SELECT * FROM accessories WHERE id IN ({",".join("?" * len(user_favorite_accessories))})'
+        favorite_accessories = cursor.execute(favorite_accessories_query, user_favorite_accessories).fetchall()
+    else:
+        favorite_accessories = []
+
     conn.close()
 
-    return render_template('profile.html', user_data=user_data, user_favorites_computers=user_favorite_computers, user_favorite_accessories=user_favorite_accessories)
-
-
+    return render_template('profile.html', user=user_data, favorite_computers=favorite_computers, favorite_accessories=favorite_accessories)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
