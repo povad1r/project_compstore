@@ -560,7 +560,7 @@ def remove_from_cart(user_id, item_type, item_id):
     conn.close()
 
 @app.route('/remove_from_cart/<item_type>/<item_id>', methods=['POST'])
-def remove_from_cart(item_type, item_id):
+def remove_from_cart_route(item_type, item_id):
     if 'logged_in' in session and session['logged_in']:
         user_id = session['user_id']
         remove_from_cart(user_id, item_type, item_id)

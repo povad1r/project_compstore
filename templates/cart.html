@@ -23,7 +23,7 @@
                                 <h5 class="card-title">{{ computer[1] }}</h5>
                                 <p class="card-text">{{ computer[2] }}</p>
                                 <p class="card-text"><strong>Ціна: {{ computer[6] }}₴</strong></p>
-                                <form method="POST" action="{{ url_for('remove_from_cart', item_type='computer', item_id=computer[0]) }}">
+                                <form method="POST" action="{{ url_for('remove_from_cart_route', item_type='computer', item_id=computer[0]) }}">
                                     <button type="submit" class="btn btn-danger btn-sm">Прибрати з корзини</button>
                                 </form>
                             </div>
@@ -42,7 +42,7 @@
                                 <h5 class="card-title">{{ accessory[3] }}</h5>
                                 <p class="card-text">{{ accessory[4] }}</p>
                                 <p class="card-text"><strong>Ціна: {{ accessory[5] }}₴</strong></p>
-                                <form method="POST" action="{{ url_for('remove_from_cart', item_type='accessory', item_id=accessory[0]) }}">
+                                <form method="POST" action="{{ url_for('remove_from_cart_route', item_type='accessory', item_id=accessory[0]) }}">
                                     <button type="submit" class="btn btn-danger btn-sm">Прибрати з корзини</button>
                                 </form>
                             </div>
