@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, session
 import sqlite3
 
+
 app = Flask(__name__)
 
 
@@ -580,24 +581,71 @@ def cart():
 @app.route('/buy', methods=['GET', 'POST'])
 def buy():
     if request.method == 'POST':
-        # Retrieve form data
         name = request.form['name']
         surname = request.form['surname']
         address = request.form['address']
-        password = request.form['password']
+        phone = request.form['phone']
+        current_password = request.form['current_password']
+        confirm_password = request.form['confirm_password']
 
-        # Process form data as needed (e.g., save to database)
-        # You can also add validation logic here
 
-        # Redirect to a thank you page or another appropriate page
+        user_id = session['user_id']
+
+        if not check_password(user_id, current_password):
+            error = 'Неправильний пароль акаунту. Спробуйте ще раз!'
+            return render_template('buy.html', error=error)
+        if current_password != confirm_password:
+            error = 'Ваш пароль не співпав. Спробуйте ще раз!'
+            return render_template('buy.html', error=error)
+
+
+        save_order(user_id, name, surname, address, phone)
+
+        clear_cart(user_id)
+
+
         return redirect(url_for('thank_you'))
     else:
         return render_template('buy.html')
 
 
+def save_order(user_id, name, surname, address, phone):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("INSERT INTO orders (user_id, name, surname, address, phone) VALUES (?, ?, ?, ?, ?)",
+                   (user_id, name, surname, address, phone))
+
+    conn.commit()
+    conn.close()
+
+
+def clear_cart(user_id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE users SET computers_cart=NULL WHERE id=?", (user_id,))
+
+    conn.commit()
+    conn.close()
+
+
+def check_password(user_id, password):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT password FROM users WHERE id=?", (user_id,))
+    stored_password = cursor.fetchone()[0]
+
+    conn.close()
+
+    return password == stored_password
+
+
 @app.route('/thank_you')
 def thank_you():
     return render_template('thank_you.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

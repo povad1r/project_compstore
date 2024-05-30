@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mt-4">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="min-height: 9.4vh">
         <div class="col-12 text-center">
             <h1>Оформлення замовлення</h1>
             <hr>
@@ -13,26 +13,60 @@
 
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form method="POST">
+            <form method="POST" class="mb-4">
                 <div class="form-group">
                     <label for="name">Ім'я</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Петро" required>
                 </div>
                 <div class="form-group">
                     <label for="surname">Прізвище</label>
-                    <input type="text" class="form-control" id="surname" name="surname" required>
+                    <input type="text" class="form-control" id="surname" name="surname" placeholder="Іванов" required>
                 </div>
                 <div class="form-group">
                     <label for="address">Адреса</label>
-                    <input type="text" class="form-control" id="address" name="address" required>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="пр.Бажана 34" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Пароль</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <label for="phone">Номер телефона</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="+380123456789" required>
+                </div>
+                <div class="form-group">
+                    <label for="current_password">Пароль:</label>
+                    <div class="input-group mb-1">
+                        <input type="password" id="current_password" name="current_password" class="form-control" placeholder="0000">
+                        <div class="input-group-append">
+                            <button type="button" onclick="togglePasswordVisibility('current_password')" class="btn btn-outline-secondary">
+                                <span id="password_icon">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Підтвердіть пароль:</label>
+                    <div class="input-group mb-1">
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="0000">
+                        <div class="input-group-append">
+                            <button type="button" onclick="togglePasswordVisibility('confirm_password')" class="btn btn-outline-secondary">
+                                <span id="password_icon">👁️</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Підтвердити замовлення</button>
+                {% if error %}
+                    <p class="mt-3 text-danger">{{ error }}</p>
+                {% endif %}
             </form>
         </div>
     </div>
 </div>
+<script>
+    function togglePasswordVisibility(fieldId) {
+    var passwordInput = document.getElementById(fieldId);
+    var passwordIcon = document.getElementById(fieldId + '_icon');
+    var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    passwordIcon.textContent = type === 'password' ? '👁️' : '🚫';
+}
+</script>
 {% endblock %}
