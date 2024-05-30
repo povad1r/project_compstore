@@ -529,25 +529,50 @@ def get_cart_items(user_id):
     cursor.execute("SELECT computers_cart FROM users WHERE id=?", (user_id,))
     cart = cursor.fetchone()[0]
 
-    items = []
+    computers = []
+    accessories = []
     if cart:
         cart = eval(cart)
         for item in cart:
             if item['item_type'] == 'computer':
                 cursor.execute("SELECT * FROM computers WHERE id=?", (item['item_id'],))
+                computers.append(cursor.fetchone())
             elif item['item_type'] == 'accessory':
                 cursor.execute("SELECT * FROM accessories WHERE id=?", (item['item_id'],))
-            items.append(cursor.fetchone())
+                accessories.append(cursor.fetchone())
 
     conn.close()
-    return items
+    return computers, accessories
 
+def remove_from_cart(user_id, item_type, item_id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT computers_cart FROM users WHERE id=?", (user_id,))
+    cart = cursor.fetchone()[0]
+
+    if cart:
+        cart = eval(cart)
+        updated_cart = [item for item in cart if not (item['item_type'] == item_type and item['item_id'] == item_id)]
+        cursor.execute("UPDATE users SET computers_cart=? WHERE id=?", (str(updated_cart), user_id))
+
+    conn.commit()
+    conn.close()
+
+@app.route('/remove_from_cart/<item_type>/<item_id>', methods=['POST'])
+def remove_from_cart(item_type, item_id):
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        remove_from_cart(user_id, item_type, item_id)
+        return redirect(url_for('cart'))
+    else:
+        return redirect(url_for('register'))
 @app.route('/cart')
 def cart():
     if 'logged_in' in session and session['logged_in']:
         user_id = session['user_id']
-        items = get_cart_items(user_id)
-        return render_template('cart.html', items=items)
+        computers, accessories = get_cart_items(user_id)
+        return render_template('cart.html', computers=computers, accessories=accessories)
     else:
         return redirect(url_for('register'))
 

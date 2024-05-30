@@ -3,21 +3,64 @@
 {% block title %}Корзина{% endblock %}
 
 {% block content %}
-<body>
-    <h1>Корзина</h1>
-    <ul>
-        {% for item in items %}
-        <li>
-            {% if item %}
-                    <p>Товар: {{ item[1] }}</p>
-                    <p>Описание: {{ item[2] }}</p>
-                    <p>Цена: {{ item[6] }} грн</p>
-            {% else %}
-                <p>Товар не найден</p>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-    <a href="/">Продолжить покупки</a>
-</body>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <h1>Ваша корзина</h1>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="row justify-content-center">
+                {% for computer in computers %}
+                <div class="col-md-2 col-sm-6 mb-2">
+                    <div class="card shadow-sm">
+                        {% if computer %}
+                            <img src="{{ url_for('static', filename=computer[1] + '.jpg') }}" class="card-img-top" alt="{{ computer[1] }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ computer[1] }}</h5>
+                                <p class="card-text">{{ computer[2] }}</p>
+                                <p class="card-text"><strong>Ціна: {{ computer[6] }}₴</strong></p>
+                                <form method="POST" action="{{ url_for('remove_from_cart', item_type='computer', item_id=computer[0]) }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">Прибрати з корзини</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <p class="text-center">Товар не знайдено</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% for accessory in accessories %}
+                <div class="col-md-2 col-sm-6 mb-2">
+                    <div class="card shadow-sm">
+                        {% if accessory %}
+                            <img src="{{ accessory[1] }}" class="card-img-top" alt="{{ accessory[3] }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ accessory[3] }}</h5>
+                                <p class="card-text">{{ accessory[4] }}</p>
+                                <p class="card-text"><strong>Ціна: {{ accessory[5] }}₴</strong></p>
+                                <form method="POST" action="{{ url_for('remove_from_cart', item_type='accessory', item_id=accessory[0]) }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">Прибрати з корзини</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <p class="text-center">Товар не знайдено</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4 mb-3">
+        <div class="col-12 text-center">
+            <a href="/" class="btn btn-primary btn-lg"><i class="fas fa-shopping-cart"></i> Продовжити покупки</a>
+            <a href="/buy" class="btn btn-primary btn-lg"><i class="fas fa-shopping-cart"></i> Оформити замовлення</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
