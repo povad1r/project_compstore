@@ -577,5 +577,27 @@ def cart():
         return redirect(url_for('register'))
 
 
+@app.route('/buy', methods=['GET', 'POST'])
+def buy():
+    if request.method == 'POST':
+        # Retrieve form data
+        name = request.form['name']
+        surname = request.form['surname']
+        address = request.form['address']
+        password = request.form['password']
+
+        # Process form data as needed (e.g., save to database)
+        # You can also add validation logic here
+
+        # Redirect to a thank you page or another appropriate page
+        return redirect(url_for('thank_you'))
+    else:
+        return render_template('buy.html')
+
+
+@app.route('/thank_you')
+def thank_you():
+    return render_template('thank_you.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

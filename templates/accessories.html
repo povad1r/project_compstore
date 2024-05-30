@@ -77,7 +77,7 @@
                                 </form>
                                 {% if accessory[0] in user_favorite_accessories %}
                                     <form method="POST" action="{{ url_for('remove_favorite', item_type='accessory', item_id=accessory[0]) }}" style="display:inline;">
-                                        <button type="submit" class="btn btn-danger btn-sm float-right" onclick="return confirm('Прибрати з улюблених')">❤</button>
+                                        <button type="submit" class="btn btn-danger btn-sm float-right" onclick="return confirm('Прибрати з улюблених')">❤️</button>
                                     </form>
                                 {% else %}
                                     <form method="POST" action="{{ url_for('add_favorite', item_type='accessory', item_id=accessory[0]) }}" style="display:inline;">

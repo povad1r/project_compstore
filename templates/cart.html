@@ -11,11 +11,11 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="min-height: 62vh;">
         <div class="col-12">
             <div class="row justify-content-center">
                 {% for computer in computers %}
-                <div class="col-md-2 col-sm-6 mb-2">
+                <div class="col-md-3 col-sm-6 mb-3">
                     <div class="card shadow-sm">
                         {% if computer %}
                             <img src="{{ url_for('static', filename=computer[1] + '.jpg') }}" class="card-img-top" alt="{{ computer[1] }}">

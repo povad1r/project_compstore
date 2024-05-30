@@ -41,10 +41,14 @@
                                                 <h5 class="card-title">{{ computer[1] }}</h5>
                                                 <p class="card-text">{{ computer[2] }}</p>
                                                 <p class="card-text">Ціна: {{ computer[6] }}₴</p>
-                                                <a href="/cart" class="btn btn-primary">Додати в корзину</a>
-                                                <form method="POST" action="{{ url_for('remove_favorite', item_type='computer', item_id=computer[0]) }}" style="display:inline;">
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Прибрати з улюблених')">🤍</button>
-                                                </form>
+                                                <div class="d-flex">
+                                                    <form method="POST" class="d-flex" action="{{ url_for('add_to_cart_route', item_type='computer', item_id=computer[0]) }}">
+                                                        <button type="submit" class="btn btn-primary mr-2">Додати в корзину</button>
+                                                    </form>
+                                                    <form method="POST" action="{{ url_for('remove_favorite', item_type='computer', item_id=computer[0]) }}" style="display:inline;">
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Прибрати з улюблених')">🤍</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -72,10 +76,14 @@
                                                 <h5 class="card-title">{{ accessory[3] }}</h5>
                                                 <p class="card-text">{{ accessory[4] }}</p>
                                                 <p class="card-text">Ціна: {{ accessory[5] }}₴</p>
-                                                <a href="/cart" class="btn btn-primary">Додати в корзину</a>
-                                                <form method="POST" action="{{ url_for('remove_favorite', item_type='accessory', item_id=accessory[0]) }}" style="display:inline;">
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Прибрати з улюблених')">🤍</button>
-                                                </form>
+                                                <div class="d-flex">
+                                                    <form method="POST" class="d-flex" action="{{ url_for('add_to_cart_route', item_type='accessory', item_id=accessory[0]) }}">
+                                                        <button type="submit" class="btn btn-primary mr-2">Додати в корзину</button>
+                                                    </form>
+                                                    <form method="POST" action="{{ url_for('remove_favorite', item_type='accessory', item_id=accessory[0]) }}" style="display:inline;">
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Прибрати з улюблених')">❤️</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
