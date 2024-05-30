@@ -385,7 +385,7 @@ def get_user_favorite_accessories(user_id):
 def profile():
     if 'logged_in' not in session or not session['logged_in']:
         return redirect(url_for('login'))
-
+    show_password = session.get('show_password', False)
     user_id = session['user_id']
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -409,7 +409,12 @@ def profile():
 
     conn.close()
 
-    return render_template('profile.html', user=user_data, favorite_computers=favorite_computers, favorite_accessories=favorite_accessories)
+    return render_template('profile.html', user=user_data, favorite_computers=favorite_computers, favorite_accessories=favorite_accessories, show_password=show_password)
+
+@app.route('/toggle_password', methods=['POST'])
+def toggle_password():
+    session['show_password'] = not session.get('show_password', False)
+    return redirect(url_for('profile'))
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

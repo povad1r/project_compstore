@@ -18,11 +18,25 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Пароль:</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="0000">
+                    <div class="input-group mb-1">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="0000">
+                        <div class="input-group-append">
+                            <button type="button" onclick="togglePasswordVisibility('password')" class="btn btn-outline-secondary">
+                                <span id="password_icon">👁️</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="confirm_password">Підтвердіть пароль:</label>
-                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="0000">
+                    <div class="input-group mb-3">
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="0000">
+                        <div class="input-group-append">
+                            <button type="button" onclick="togglePasswordVisibility('confirm_password')" class="btn btn-outline-secondary">
+                                <span id="confirm_password_icon">👁️</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Зареєструватися</button>
                 {% if error %}
@@ -32,4 +46,13 @@
         </div>
     </div>
 </div>
+<script>
+function togglePasswordVisibility(fieldId) {
+    var passwordInput = document.getElementById(fieldId);
+    var passwordIcon = document.getElementById(fieldId + '_icon');
+    var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    passwordIcon.textContent = type === 'password' ? '👁️' : '🚫';
+}
+</script>
 {% endblock %}
