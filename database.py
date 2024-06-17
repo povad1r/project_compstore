@@ -99,16 +99,17 @@ cursor = connect.cursor()
 #                     acc_company TEXT NOT NULL
 #                 )''')
 #
-# cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-#                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-#                     phone_number TEXT UNIQUE NOT NULL,
-#                     username TEXT NOT NULL,
-#                     password TEXT NOT NULL,
-#                     favorite_computers TEXT,
-#                     favorite_accessories TEXT,
-#                     accessories_cart TEXT,
-#                     computers_cart TEXT
-#                   )''')
+cursor.execute('''DROP TABLE users''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    phone_number TEXT UNIQUE NOT NULL,
+                    username TEXT NOT NULL,
+                    password TEXT NOT NULL,
+                    favorite_computers TEXT,
+                    favorite_accessories TEXT,
+                    accessories_cart TEXT,
+                    computers_cart TEXT
+                  )''')
 # # cursor.execute('''DROP TABLE orders''')
 # cursor.execute('''CREATE TABLE IF NOT EXISTS orders (
 #     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -150,27 +151,6 @@ cursor = connect.cursor()
 #                ('https://content1.rozetka.com.ua/goods/images/big/392116955.jpg', 'Клавіатура', 'Клавіатура Varmilo VEM87 Beijing Opera', 'Дизайн клавіатури зроблений у азіатському стилі.', 8099, 'Varmilo'))
 # cursor.execute("INSERT INTO accessories(acc_image, acc_type, acc_name, acc_desc, acc_price, acc_company) VALUES (?,?,?,?,?,?)",
 #                ('https://content.rozetka.com.ua/goods/images/big/188638110.jpg', 'Клавіатура', 'Клавіатура HyperX Alloy Origins', 'Неймовірна клавіатура за дуже приємну ціну.', 3299, 'HyperX'))
-
-
-#
-# cursor.execute('''DROP TABLE users''')
-# cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-#                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-#                     phone_number TEXT UNIQUE NOT NULL,
-#                     username TEXT NOT NULL,
-#                     password TEXT NOT NULL,
-#                     favorite_computers TEXT DEFAULT,
-#                     favorite_accessories TEXT DEFAULT
-#                   )''')
-
-# cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-#                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-#                     phone_number TEXT UNIQUE NOT NULL,
-#                     username TEXT NOT NULL,
-#                     password TEXT NOT NULL,
-#                     favorite_computers TEXT,
-#                     favorite_accessories TEXT
-#                   )''')
 
 
 # cursor.execute("SELECT * from users")

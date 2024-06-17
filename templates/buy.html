@@ -36,7 +36,7 @@
                         <input type="password" id="current_password" name="current_password" class="form-control" placeholder="0000">
                         <div class="input-group-append">
                             <button type="button" onclick="togglePasswordVisibility('current_password')" class="btn btn-outline-secondary">
-                                <span id="password_icon">👁️</span>
+                                <span id="current_password_icon">👁️</span>
                             </button>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                         <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="0000">
                         <div class="input-group-append">
                             <button type="button" onclick="togglePasswordVisibility('confirm_password')" class="btn btn-outline-secondary">
-                                <span id="password_icon">👁️</span>
+                                <span id="confirm_password_icon">👁️</span>
                             </button>
                         </div>
                     </div>
@@ -62,11 +62,11 @@
 </div>
 <script>
     function togglePasswordVisibility(fieldId) {
-    var passwordInput = document.getElementById(fieldId);
-    var passwordIcon = document.getElementById(fieldId + '_icon');
-    var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-    passwordIcon.textContent = type === 'password' ? '👁️' : '🚫';
-}
+        var passwordInput = document.getElementById(fieldId);
+        var passwordIcon = document.getElementById(fieldId + '_icon');
+        var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        passwordIcon.textContent = type === 'password' ? '👁️' : '🚫';
+    }
 </script>
 {% endblock %}

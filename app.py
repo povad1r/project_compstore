@@ -266,12 +266,14 @@ def get_filtered_accessories(acc_types, acc_companies, chosen_price):
     return all_accessories
 
 
+
+
 @app.route('/search_accessories', methods=['POST', "GET"])
 @app.route('/search_accessories/<int:page>', methods=['POST', "GET"])
 def search_accessories(page=1):
     acc_types = request.args.getlist('type')
     acc_companies = request.args.getlist('company')
-    chosen_price = request.args.get('price')
+    chosen_price = request.args.get('priceRange')
     limit = 9
     offset = (page - 1) * limit
 
@@ -475,6 +477,14 @@ def register():
             error = 'Профіль з таким номером телефона вже існує.'
             conn.close()
             return render_template('register.html', error=error)
+        cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+        user_existing = cursor.fetchone()
+
+        if user_existing:
+            error = 'Профіль з таким юзернеймом вже існує.'
+            conn.close()
+            return render_template('register.html', error=error)
+
 
         cursor.execute("INSERT INTO users (phone_number, username, password) VALUES (?, ?, ?)",
                        (phone_number, username, password))

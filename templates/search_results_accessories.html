@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}Search Results{% endblock %}
+{% block title %}Результати пошуку{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1 class="text-center">Search Results</h1>
+    <h1 class="text-center">Результати пошуку:</h1>
     <div>
-        <h2 class="text-center">Matching Computers:</h2>
         <ul>
             <div class="col-md-9 mx-auto">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" style="min-height: 62vh">
                     {% for accessory in accessories %}
                         <div class="col-md-4 mb-3">
                             <div class="card">
